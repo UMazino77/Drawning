@@ -24,3 +24,28 @@ impl Point {
         (a, b)
     }
 }
+
+impl Triangle {
+    pub fn new(x: Point , y:Point, z : Point) -> Self {
+        Triangle(x,y,z)
+    }
+}
+
+impl Line {
+    pub fn new(x: Point, y: Point) -> Self {
+        Line(x,y)
+    }
+}
+
+impl Rectangle {
+    pub fn new(x : Point , y : Point) -> Self {
+        Rectangle(x, y)
+    }
+    
+}
+
+impl Circle {
+    pub fn new(c : Point , r : i32) -> Self {
+        Circle(c, r)
+    }
+}
