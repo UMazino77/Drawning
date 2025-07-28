@@ -5,7 +5,7 @@ use geometrical_shapes::*;
 // use raster::{Color, Image};
 
 fn main() {
-        let (a,b) = Point::random();
+        let (a,b) = Point::random(4096,4096);
         let c = Point::new(a,b);
 
         println!("{:?}", c);
