@@ -77,15 +77,14 @@ impl Line {
 
 impl Drawable for Line {
    fn draw(&self, im : &mut dyn Displayable) {
-    let a = abs(self.0.0-self.1.0);
-    let b = abs(self.0.1-self.1.1);
-    let mut dis : f64 = max(a as f64, b as f64) ;
+    let a = (self.1.0-self.0.0) as f64 ;
+    let b = (self.1.1-self.0.1) as f64;
+    let dis : f64 = (a*a+b*b).sqrt() ;
 
     let col = Line::color();
 
-    let cc  = a as f64 / dis;
-    let dd = b as f64 / dis;
-    dis = dis.sqrt();
+    let cc : f64 = a/dis.ceil();
+    let dd: f64 = b/dis.ceil();
     let k = dis as i32;
         for i in 0..=k {
             // let m: i32 = (sel4096f.1.1-self.0.1) / (self.1.0-self.0.0) ;
@@ -93,11 +92,14 @@ impl Drawable for Line {
             // let ccc = 
             // cc += cc;
             // dd += dd;
-            im.display(self.0.0+(i as f64 *cc) as i32,self.0.1+(i as f64 *dd) as i32 , col.clone());
+            let x = self.0.0 + (i as f64 * cc).round() as i32;
+            let y = self.0.1 + (i as f64 * dd).round() as i32;
+            im.display(x,y, col.clone());
         }
 
    }
 }
+
 
 // impl Drawable for Line {
 //     fn draw(&self, im: &mut dyn Displayable) {
