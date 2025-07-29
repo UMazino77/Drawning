@@ -1,10 +1,16 @@
 use rand::random;
+use raster::Color;
 use raster::Image;
 
-// pub trait Drawable {
-// }
+pub trait Drawable {
+        fn draw(im : &mut Image) ;
 
-// pub trait Displayable {}
+        fn color()->Color ;
+}
+
+pub trait Displayable {
+    fn display(&mut self, x: i32, y: i32, color: Color);
+}
 
 #[derive(Debug, Clone)]
 pub struct Point(i32, i32);
@@ -18,11 +24,21 @@ impl Point {
         Point(x, y)
     }
 
-    pub fn random(width : i32, height:i32) -> (i32,i32) {
+    pub fn random(width : i32, height:i32) -> Self {
         let a = random::<i32>() % width;
         let b = random::<i32>() % height;
 
-        (a, b)
+        Point::new(a, b)
+    }
+}
+
+impl color for Point {
+        fn color()->Color {
+        let r = random::<u8>();
+        let g = random::<u8>();
+        let b = random::<u8>();
+
+        Color::rgb(r,g,b)
     }
 }
 
@@ -32,16 +48,36 @@ impl Triangle {
     }
 }
 
+impl color for Triangle {
+        fn color()->Color {
+        let r = random::<u8>();
+        let g = random::<u8>();
+        let b = random::<u8>();
+
+        Color::rgb(r,g,b)
+    }
+}
+
 impl Line {
     pub fn new(x: Point, y: Point) -> Self {
         Line(x,y)
     }
 
-    pub fn random(width : i32, height: i32) ->(i32,i32){
+    pub fn random(width : i32, height: i32) ->Self{
         let a = random::<i32>() % width;
         let b = random::<i32>() % height;
 
-        (a, b)
+        Line::new(a, b)
+    }
+}
+
+impl color for Line {
+        fn color()->Color {
+        let r = random::<u8>();
+        let g = random::<u8>();
+        let b = random::<u8>();
+
+        Color::rgb(r,g,b)
     }
 }
 
@@ -52,15 +88,44 @@ impl Rectangle {
     
 }
 
+impl color for Rectangle {
+        fn color()->Color {
+        let r = random::<u8>();
+        let g = random::<u8>();
+        let b = random::<u8>();
+
+        Color::rgb(r,g,b)
+    }
+}
+
 impl Circle {
     pub fn new(c : Point , r : i32) -> Self {
         Circle(c, r)
     }
 
-    pub fn random(width:i32, height : i32) -> (i32,i32){
+    pub fn random(width:i32, height : i32) -> Self{
         let a = random::<i32>() % width;
         let b = random::<i32>() % height;
+        let c = random::<i32>() % (min(height,width)/2);
 
-        (a, b)
+
+        Circle::new(Point::new(a, b),c) 
     }
+}
+
+impl color for Circle {
+        fn color()->Color {
+        let r = random::<u8>();
+        let g = random::<u8>();
+        let b = random::<u8>();
+
+        Color::rgb(r,g,b)
+    }
+}
+
+pub fn min(a : i32, b: i32)->i32 {
+    if a<b {
+        return a;
+    }
+    b
 }
