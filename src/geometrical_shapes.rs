@@ -44,8 +44,8 @@ impl Drawable for Point {
 }
 
 impl Triangle {
-    pub fn new(x: Point , y:Point, z : Point) -> Self {
-        Triangle(x,y,z)
+    pub fn new(x: &Point , y:&Point, z : &Point) -> Self {
+        Triangle(*x,*y,*z)
     }
 }
 
