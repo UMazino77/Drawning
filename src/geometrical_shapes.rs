@@ -17,7 +17,7 @@ pub trait Displayable {
     fn display(&mut self, x: i32, y: i32, color: Color);
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy)]
 pub struct Point(i32, i32);
 pub struct Line(pub Point, pub Point);
 pub struct Triangle(pub Point, pub Point, pub Point);
@@ -43,17 +43,23 @@ impl Drawable for Point {
     }
 }
 
-// impl Triangle {
-//     pub fn new(x: Point , y:Point, z : Point) -> Self {
-//         Triangle(x,y,z)
-//     }
-// }
+impl Triangle {
+    pub fn new(x: Point , y:Point, z : Point) -> Self {
+        Triangle(x,y,z)
+    }
+}
 
-// impl Drawable for Triangle {
-//     fn draw(&self, im : &mut dyn Displayable) {
-//         im.display(x, y, color);
-//     }
-// }
+impl Drawable for Triangle {
+    fn draw(&self, im : &mut dyn Displayable) {
+        let l1 = Line::new(self.0, self.1);
+        let l2 = Line::new(self.1, self.2);
+        let l3 = Line::new(self.0, self.2);
+
+        Line::draw(&l1, im);
+        Line::draw(&l2, im);
+        Line::draw(&l3, im);
+    }
+}
 
 impl Line {
     pub fn new(x: Point, y: Point) -> Self {
@@ -100,48 +106,6 @@ impl Drawable for Line {
    }
 }
 
-
-// impl Drawable for Line {
-//     fn draw(&self, im: &mut dyn Displayable) {
-//         // let a = self.0.0-self.1.0;
-//         // let b = self.0.1-self.1.1;
-//         // let mut dis : f64 = (a*a+b*b) as f64;
-//         // dis = dis.sqrt();
-//         // let k = dis as i32;
-//         let n: f64 = (self.1.1 - self.0.1) as f64;
-//         let p :f64 = (self.1.0 - self.0.0) as f64;
-//         let m = n/p;
-//         let mm = m as i32;
-
-//         println!("le point 1 : x = {} , y = {}\n\nle point 2 : x = {} , y = {}", self.0.0, self.0.1,self.1.0,self.1.1);
-
-//         let col = Line::color();
-
-//         let mut c_pos = 1;
-//         let mut y_pos = 1;
-//         if self.1.0-self.0.0 < 0{
-//             c_pos = -1
-//         }
-
-//         if self.1.1-self.0.1 < 0{
-//             y_pos = -1;
-//         }
-
-
-//         for y in 0..=abs(self.1.1 - self.0.1) {
-//             for x in 0..=abs(self.1.0 - self.0.0) {
-                
-               
-//                 // println!("{} ===> {}", self.0.0 + i * m, self.0.1 + i * m);
-//                 let yy = y as f64;
-//                 let xx = x as f64;
-//                 if yy >= m*xx-2.0 && yy <= m*xx+2.0 {
-//                     im.display((self.0.0 + c_pos*x), self.0.1 + y_pos*y, col.clone());
-//                 }
-//             }
-//         }
-//     }
-// }
 
 // impl Rectangle {
 //     pub fn new(x : Point , y : Point) -> Self {
