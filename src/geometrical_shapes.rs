@@ -22,7 +22,7 @@ pub struct Point(i32, i32);
 pub struct Line(pub Point, pub Point);
 pub struct Triangle(pub Point, pub Point, pub Point);
 pub struct Rectangle(pub Point, pub Point);
-// pub struct Circle(pub Point, i32);
+pub struct Circle(pub Point, i32);
 // pub struct Cube(pubPoint, i32);
 
 impl Point {
@@ -118,68 +118,43 @@ impl Drawable for Rectangle {
         // helper(&l5, im, col.clone());
         // helper(&l6, im, col.clone());
     }
+} 
+
+impl Circle {
+    pub fn new(c : Point , r : i32) -> Self {
+        Circle(c, r)
+    }
+
+    pub fn random(width:i32, height : i32) -> Self{
+        let a = random::<i32>() % width;
+        let b = random::<i32>() % height;
+        let c = random::<i32>() % (min(height,width)/2);
+
+        Circle::new(Point::new(a, b),c)
+    }
 }
 
-// impl Circle {
-//     pub fn new(c : Point , r : i32) -> Self {
-//         Circle(c, r)
-//     }
+impl Drawable for Circle {
+    fn draw(&self, im :&mut dyn Displayable) {
+        let col = Circle::color();
+        for i in 0..=self.1 {
+            for j in 0..=self.1 {
+                let a = (i*i+j*j) as f64;
+                if a.sqrt() as i32 == self.1 {
+                    im.display(self.0.0+self.1-i,self.0.1+self.1-j,col.clone() );
+                    im.display(self.0.0+self.1-i,self.0.1+self.1+j,col.clone() );
+                    im.display(self.0.0+self.1+i,self.0.1+self.1-j,col.clone() );
+                    im.display(self.0.0+self.1+i,self.0.1+self.1+j,col.clone() );
 
-//     pub fn random(width:i32, height : i32) -> Self{
-//         let a = random::<i32>() % width;
-//         let b = random::<i32>() % height;
-//         let c = random::<i32>() % (min(height,width)/2);
+                }
+            }
+        }
+    }
 
-//         Circle::new(Point::new(a, b),c)
-//     }
-// }
-
-// impl color for Circle {
-//         fn color()->Color {
-//         let r = random::<u8>();
-//         let g = random::<u8>();
-//         let b = random::<u8>();
-
-//         Color::rgb(r,g,b)
-//     }
-// }
+}
 
 pub fn min(a: i32, b: i32) -> i32 {
     if a < b {
-        return a;
-    }
-    b
-}
-// impl Circle {
-//     pub fn new(c : Point , r : i32) -> Self {
-//         Circle(c, r)
-//     }
-
-//     pub fn random(width:i32, height : i32) -> Self{
-//         let a = random::<i32>() % width;
-//         let b = random::<i32>() % height;
-//         let c = random::<i32>() % (min(height,width)/2);
-
-//         Circle::new(Point::new(a, b),c)
-//     }
-// }
-
-pub fn abs(a: i32) -> i32 {
-    if a < 0 {
-        return -1 * a;
-    }
-    a
-}
-
-pub fn aabs(a: f64) -> f64 {
-    if a < 0.0 {
-        return -1.0 * a;
-    }
-    a
-}
-
-pub fn max(a: f64, b: f64) -> f64 {
-    if a > b {
         return a;
     }
     b
