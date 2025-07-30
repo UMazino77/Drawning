@@ -23,8 +23,7 @@ pub struct Line(pub Point, pub Point);
 pub struct Triangle(pub Point, pub Point, pub Point);
 pub struct Rectangle(pub Point, pub Point);
 // pub struct Circle(pub Point, i32);
-// pub struct Cube(pub Point, pub Point);
-// pub struct Circle(pub Point, i32);
+// pub struct Cube(pubPoint, i32);
 
 impl Point {
     pub fn new(x: i32, y: i32) -> Self {
@@ -101,23 +100,23 @@ impl Rectangle {
 impl Drawable for Rectangle {
     fn draw(&self, im: &mut dyn Displayable) {
         let col = Rectangle::color();
-        let p3 : Point = Point::new(self.0.1 , self.1.0);
+        let p3 : Point = Point::new(self.0.0 , self.1.1);
         let p4 : Point = Point::new(self.1.0 , self.0.1);
         
-        let l1 = Line::new(self.0, p3);
-        let l2 = Line::new(p3, self.1);
-        let l3 = Line::new(self.1, p4);
-        let l4 = Line::new(p4, self.0);
-        let l5 = Line::new(self.0, self.1);
-        let l6 = Line::new(p3, p4);
+        let l1 = Line::new(self.0, p4);
+        let l2 = Line::new(p4, self.1);
+        let l3 = Line::new(self.1, p3);
+        let l4 = Line::new(p3, self.0);
+        // let l5 = Line::new(self.0, self.1);
+        // let l6 = Line::new(p3, p4);
         
         
         helper(&l1, im, col.clone());
         helper(&l2, im, col.clone());
         helper(&l3, im, col.clone());
         helper(&l4, im, col.clone());
-        helper(&l5, im, col.clone());
-        helper(&l6, im, col.clone());
+        // helper(&l5, im, col.clone());
+        // helper(&l6, im, col.clone());
     }
 }
 
@@ -151,6 +150,19 @@ pub fn min(a: i32, b: i32) -> i32 {
     }
     b
 }
+// impl Circle {
+//     pub fn new(c : Point , r : i32) -> Self {
+//         Circle(c, r)
+//     }
+
+//     pub fn random(width:i32, height : i32) -> Self{
+//         let a = random::<i32>() % width;
+//         let b = random::<i32>() % height;
+//         let c = random::<i32>() % (min(height,width)/2);
+
+//         Circle::new(Point::new(a, b),c)
+//     }
+// }
 
 pub fn abs(a: i32) -> i32 {
     if a < 0 {
