@@ -12,7 +12,7 @@ fn main() {
     // for _ in 0..50 {
     //     gs::Line::random(image.width, image.height).draw(&mut image);
     // }
-    //
+    
     // for _ in 0..1000 {
     //         gs::Point::random(image.width, image.height).draw(&mut image);
     // }

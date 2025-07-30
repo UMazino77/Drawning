@@ -3,7 +3,7 @@ use raster::Color;
 
 pub trait Drawable {
     fn draw(&self, im: &mut dyn Displayable);
-
+    
     fn color() -> Color {
         let r = random::<u8>();
         let g = random::<u8>();
@@ -22,6 +22,8 @@ pub struct Point(i32, i32);
 pub struct Line(pub Point, pub Point);
 pub struct Triangle(pub Point, pub Point, pub Point);
 pub struct Rectangle(pub Point, pub Point);
+// pub struct Circle(pub Point, i32);
+// pub struct Cube(pub Point, pub Point);
 // pub struct Circle(pub Point, i32);
 
 impl Point {
@@ -55,9 +57,11 @@ impl Drawable for Triangle {
         let l2 = Line::new(self.1, self.2);
         let l3 = Line::new(self.0, self.2);
 
-        Line::draw(&l1, im);
-        Line::draw(&l2, im);
-        Line::draw(&l3, im);
+        let col = Triangle::color();
+
+        helper(&l1, im, col.clone());
+        helper(&l2, im, col.clone());
+        helper(&l3, im, col.clone());
     }
 }
 
@@ -83,25 +87,8 @@ impl Line {
 
 impl Drawable for Line {
     fn draw(&self, im: &mut dyn Displayable) {
-        let a = (self.1.0 - self.0.0) as f64;
-        let b = (self.1.1 - self.0.1) as f64;
-        let dis: f64 = (a * a + b * b).sqrt();
-
         let col = Line::color();
-
-        let cc: f64 = a / dis.ceil();
-        let dd: f64 = b / dis.ceil();
-        let k = dis as i32;
-        for i in 0..=k {
-            // let m: i32 = (sel4096f.1.1-self.0.1) / (self.1.0-self.0.0) ;
-            // println!("{} ===> {}",self.0.0+i*m,self.0.1+i*m);
-            // let ccc =
-            // cc += cc;
-            // dd += dd;
-            let x = self.0.0 + (((i as f64) * cc).round() as i32);
-            let y = self.0.1 + (((i as f64) * dd).round() as i32);
-            im.display(x, y, col.clone());
-        }
+        helper(&self, im, col);
     }
 }
 
@@ -113,23 +100,24 @@ impl Rectangle {
 
 impl Drawable for Rectangle {
     fn draw(&self, im: &mut dyn Displayable) {
+        let col = Rectangle::color();
         let p3 : Point = Point::new(self.0.1 , self.1.0);
         let p4 : Point = Point::new(self.1.0 , self.0.1);
-
+        
         let l1 = Line::new(self.0, p3);
         let l2 = Line::new(p3, self.1);
         let l3 = Line::new(self.1, p4);
         let l4 = Line::new(p4, self.0);
         let l5 = Line::new(self.0, self.1);
         let l6 = Line::new(p3, p4);
-
-
-        Line::draw(&l1, im);
-        Line::draw(&l2, im);
-        Line::draw(&l3, im);
-        Line::draw(&l4, im);
-        Line::draw(&l5, im);
-        Line::draw(&l6, im);
+        
+        
+        helper(&l1, im, col.clone());
+        helper(&l2, im, col.clone());
+        helper(&l3, im, col.clone());
+        helper(&l4, im, col.clone());
+        helper(&l5, im, col.clone());
+        helper(&l6, im, col.clone());
     }
 }
 
@@ -183,4 +171,25 @@ pub fn max(a: f64, b: f64) -> f64 {
         return a;
     }
     b
+}
+
+pub fn helper(ddd : &Line, im : &mut dyn Displayable, col : Color) {
+    let a = (ddd.1.0 - ddd.0.0) as f64;
+        let b = (ddd.1.1 - ddd.0.1) as f64;
+        let dis: f64 = (a * a + b * b).sqrt();
+
+
+        let cc: f64 = a / dis.ceil();
+        let dd: f64 = b / dis.ceil();
+        let k = dis as i32;
+        for i in 0..=k {
+            // let m: i32 = (sel4096f.1.1-ddd.0.1) / (ddd.1.0-ddd.0.0) ;
+            // println!("{} ===> {}",ddd.0.0+i*m,ddd.0.1+i*m);
+            // let ccc =
+            // cc += cc;
+            // dd += dd;
+            let x = ddd.0.0 + (((i as f64) * cc).round() as i32);
+            let y = ddd.0.1 + (((i as f64) * dd).round() as i32);
+            im.display(x, y, col.clone());
+        }
 }
