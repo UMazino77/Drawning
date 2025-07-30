@@ -7,6 +7,12 @@ use raster::{Color, Image};
 fn main() {
     let mut image = Image::blank(1000, 1000);
 
+    // gs::Point::random(image.width, image.height).draw(&mut image);
+    let a = gs::Point::new(100, 100);
+    let b = gs::Point::new(200, 200);
+
+    gs::Cube::new(a, b).draw(&mut image);
+
     // gs::Line::random(image.width, image.height).draw(&mut image);
 
     // gs::Point::random(image.width, image.height).draw(&mut image);
@@ -25,7 +31,6 @@ fn main() {
     //     gs::Circle::random(image.width, image.height).draw(&mut image);
     // }
 
-    let 
 
     raster::save(&image, "image.png").unwrap();
 }

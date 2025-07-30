@@ -154,23 +154,32 @@ impl Drawable for Circle {
 }
 
 impl Cube {
-    fn new(a: Point, b: Point)->Cube {
+    pub fn new(a: Point, b: Point)->Cube {
         Cube(a,b)
     }
 }
 
 impl Drawable for Cube {
     fn draw(&self, im: &mut dyn Displayable) {
-        let col = Cube::color();
         let rec1 = Rectangle::new(&self.0, &self.1);
         
-        let c = Point::new(self.0.0+(self.1.0-self.0.0)/2, self.0.1-(self.1.1-self.0.1)/2);
-        let d = Point::new(self.1.0+(self.1.0-self.0.0)/2,self.1.1+(self.1.1-self.0.1)/2);
+        let c = Point::new(self.0.0+(self.1.0-self.0.0)/3*2, self.0.1-(self.1.1-self.0.1)/4);
+        let d = Point::new(self.1.0+(self.1.0-self.0.0)/3*2,self.1.1-(self.1.1-self.0.1)/4);
         
 
         let rec2: Rectangle = Rectangle::new(&c,&d);
         Rectangle::draw(&rec1, im);
         Rectangle::draw(&rec2, im);
+        let l1 = Line::new(self.0, c);
+        let l2 = Line::new(self.1, d);
+        let l3 = Line::new(Point::new(self.0.0, self.1.1), Point::new(c.0, d.1));
+        let l4 = Line::new(Point::new(self.1.0, self.0.1), Point::new(d.0, c.1));
+
+        let col = Cube::color();
+        helper(&l1, im, col.clone());
+        helper(&l2, im, col.clone());
+        helper(&l3, im, col.clone());
+        helper(&l4, im, col.clone());
     }
 }
 
