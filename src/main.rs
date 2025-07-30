@@ -9,16 +9,16 @@ fn main() {
     let mut image = Image::blank(1000, 1000);
     //
 
-    for _ in 0..50 {
-        gs::Line::random(image.width, image.height).draw(&mut image);
-    }
+    // for _ in 0..50 {
+    //     gs::Line::random(image.width, image.height).draw(&mut image);
+    // }
     //
     // for _ in 0..1000 {
     //         gs::Point::random(image.width, image.height).draw(&mut image);
     // }
 //     //
-//     let rectangle = gs::Rectangle::new(&gs::Point::new(150, 150), &gs::Point::new(50, 50));
-//     rectangle.draw(&mut image);
+    let rectangle = gs::Rectangle::new(&gs::Point::new(150, 150), &gs::Point::new(50, 50));
+    rectangle.draw(&mut image);
 //     //
     let triangle = gs::Triangle::new(
         &gs::Point::new(500, 500),

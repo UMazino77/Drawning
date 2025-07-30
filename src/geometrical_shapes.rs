@@ -21,7 +21,7 @@ pub trait Displayable {
 pub struct Point(i32, i32);
 pub struct Line(pub Point, pub Point);
 pub struct Triangle(pub Point, pub Point, pub Point);
-// pub struct Rectangle(pub Point,pub Point);
+pub struct Rectangle(pub Point, pub Point);
 // pub struct Circle(pub Point, i32);
 
 impl Point {
@@ -44,13 +44,13 @@ impl Drawable for Point {
 }
 
 impl Triangle {
-    pub fn new(x: &Point , y:&Point, z : &Point) -> Self {
-        Triangle(*x,*y,*z)
+    pub fn new(x: &Point, y: &Point, z: &Point) -> Self {
+        Triangle(*x, *y, *z)
     }
 }
 
 impl Drawable for Triangle {
-    fn draw(&self, im : &mut dyn Displayable) {
+    fn draw(&self, im: &mut dyn Displayable) {
         let l1 = Line::new(self.0, self.1);
         let l2 = Line::new(self.1, self.2);
         let l3 = Line::new(self.0, self.2);
@@ -82,47 +82,56 @@ impl Line {
 }
 
 impl Drawable for Line {
-   fn draw(&self, im : &mut dyn Displayable) {
-    let a = (self.1.0-self.0.0) as f64 ;
-    let b = (self.1.1-self.0.1) as f64;
-    let dis : f64 = (a*a+b*b).sqrt() ;
+    fn draw(&self, im: &mut dyn Displayable) {
+        let a = (self.1.0 - self.0.0) as f64;
+        let b = (self.1.1 - self.0.1) as f64;
+        let dis: f64 = (a * a + b * b).sqrt();
 
-    let col = Line::color();
+        let col = Line::color();
 
-    let cc : f64 = a/dis.ceil();
-    let dd: f64 = b/dis.ceil();
-    let k = dis as i32;
+        let cc: f64 = a / dis.ceil();
+        let dd: f64 = b / dis.ceil();
+        let k = dis as i32;
         for i in 0..=k {
             // let m: i32 = (sel4096f.1.1-self.0.1) / (self.1.0-self.0.0) ;
             // println!("{} ===> {}",self.0.0+i*m,self.0.1+i*m);
-            // let ccc = 
+            // let ccc =
             // cc += cc;
             // dd += dd;
-            let x = self.0.0 + (i as f64 * cc).round() as i32;
-            let y = self.0.1 + (i as f64 * dd).round() as i32;
-            im.display(x,y, col.clone());
+            let x = self.0.0 + (((i as f64) * cc).round() as i32);
+            let y = self.0.1 + (((i as f64) * dd).round() as i32);
+            im.display(x, y, col.clone());
         }
-
-   }
+    }
 }
 
+impl Rectangle {
+    pub fn new(x: &Point, y: &Point) -> Self {
+        Rectangle(*x, *y)
+    }
+}
 
-// impl Rectangle {
-//     pub fn new(x : Point , y : Point) -> Self {
-//         Rectangle(x, y)
-//     }
+impl Drawable for Rectangle {
+    fn draw(&self, im: &mut dyn Displayable) {
+        let p3 : Point = Point::new(self.0.1 , self.1.0);
+        let p4 : Point = Point::new(self.1.0 , self.0.1);
 
-// }
+        let l1 = Line::new(self.0, p3);
+        let l2 = Line::new(p3, self.1);
+        let l3 = Line::new(self.1, p4);
+        let l4 = Line::new(p4, self.0);
+        let l5 = Line::new(self.0, self.1);
+        let l6 = Line::new(p3, p4);
 
-// impl color for Rectangle {
-//         fn color()->Color {
-//         let r = random::<u8>();
-//         let g = random::<u8>();
-//         let b = random::<u8>();
 
-//         Color::rgb(r,g,b)
-//     }
-// }
+        Line::draw(&l1, im);
+        Line::draw(&l2, im);
+        Line::draw(&l3, im);
+        Line::draw(&l4, im);
+        Line::draw(&l5, im);
+        Line::draw(&l6, im);
+    }
+}
 
 // impl Circle {
 //     pub fn new(c : Point , r : i32) -> Self {
@@ -161,7 +170,6 @@ pub fn abs(a: i32) -> i32 {
     }
     a
 }
-
 
 pub fn aabs(a: f64) -> f64 {
     if a < 0.0 {
