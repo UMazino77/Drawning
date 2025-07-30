@@ -23,7 +23,7 @@ pub struct Line(pub Point, pub Point);
 pub struct Triangle(pub Point, pub Point, pub Point);
 pub struct Rectangle(pub Point, pub Point);
 pub struct Circle(pub Point, i32);
-// pub struct Cube(pubPoint, i32);
+pub struct Cube(pub Point, pub Point);
 
 impl Point {
     pub fn new(x: i32, y: i32) -> Self {
@@ -151,6 +151,27 @@ impl Drawable for Circle {
         }
     }
 
+}
+
+impl Cube {
+    fn new(a: Point, b: Point)->Cube {
+        Cube(a,b)
+    }
+}
+
+impl Drawable for Cube {
+    fn draw(&self, im: &mut dyn Displayable) {
+        let col = Cube::color();
+        let rec1 = Rectangle::new(&self.0, &self.1);
+        
+        let c = Point::new(self.0.0+(self.1.0-self.0.0)/2, self.0.1-(self.1.1-self.0.1)/2);
+        let d = Point::new(self.1.0+(self.1.0-self.0.0)/2,self.1.1+(self.1.1-self.0.1)/2);
+        
+
+        let rec2: Rectangle = Rectangle::new(&c,&d);
+        Rectangle::draw(&rec1, im);
+        Rectangle::draw(&rec2, im);
+    }
 }
 
 pub fn min(a: i32, b: i32) -> i32 {
