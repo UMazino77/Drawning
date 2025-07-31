@@ -3,7 +3,7 @@ use raster::Color;
 
 pub trait Drawable {
     fn draw(&self, im: &mut dyn Displayable);
-    
+
     fn color() -> Color {
         let r = random::<u8>();
         let g = random::<u8>();
@@ -115,6 +115,7 @@ impl Drawable for Rectangle {
         helper(&l2, im, col.clone());
         helper(&l3, im, col.clone());
         helper(&l4, im, col.clone());
+
         // helper(&l5, im, col.clone());
         // helper(&l6, im, col.clone());
     }
@@ -141,10 +142,10 @@ impl Drawable for Circle {
             for j in 0..=self.1 {
                 let a = (i*i+j*j) as f64;
                 if a.sqrt() as i32 == self.1 {
-                    im.display(self.0.0+self.1-i,self.0.1+self.1-j,col.clone() );
-                    im.display(self.0.0+self.1-i,self.0.1+self.1+j,col.clone() );
-                    im.display(self.0.0+self.1+i,self.0.1+self.1-j,col.clone() );
-                    im.display(self.0.0+self.1+i,self.0.1+self.1+j,col.clone() );
+                    im.display(self.0.0-i,self.0.1-j,col.clone() );
+                    im.display(self.0.0-i,self.0.1+j,col.clone() );
+                    im.display(self.0.0+i,self.0.1-j,col.clone() );
+                    im.display(self.0.0+i,self.0.1+j,col.clone() );
 
                 }
             }

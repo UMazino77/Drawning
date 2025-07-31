@@ -4,32 +4,37 @@ use geometrical_shapes as gs;
 use gs::{Displayable, Drawable};
 use raster::{Color, Image};
 
+use crate::geometrical_shapes::Point;
+
 fn main() {
     let mut image = Image::blank(1000, 1000);
 
+    // // gs::Point::random(image.width, image.height).draw(&mut image);
+    // let a = gs::Point::new(600, 600);
+    // let b = gs::Point::new(800, 800);
+
+    // gs::Cube::new(a, b).draw(&mut image);
+
+    // gs::Line::random(image.width, image.height).draw(&mut image);
+
     // gs::Point::random(image.width, image.height).draw(&mut image);
-    let a = gs::Point::new(600, 600);
-    let b = gs::Point::new(800, 800);
 
-    gs::Cube::new(a, b).draw(&mut image);
+    // let rectangle = gs::Rectangle::new(&gs::Point::new(150, 300), &gs::Point::new(50, 60));
+    // rectangle.draw(&mut image);
 
-    gs::Line::random(image.width, image.height).draw(&mut image);
+    // let triangle = gs::Triangle::new(
+    //     &gs::Point::new(500, 500),
+    //     &gs::Point::new(250, 700),
+    //     &gs::Point::new(700, 800),
+    // );
+    // triangle.draw(&mut image);
 
-    gs::Point::random(image.width, image.height).draw(&mut image);
+    let c : Point = gs::Point::new(500, 500);
+    gs::Circle::new(c, 100).draw(&mut image);
 
-    let rectangle = gs::Rectangle::new(&gs::Point::new(150, 300), &gs::Point::new(50, 60));
-    rectangle.draw(&mut image);
-
-    let triangle = gs::Triangle::new(
-        &gs::Point::new(500, 500),
-        &gs::Point::new(250, 700),
-        &gs::Point::new(700, 800),
-    );
-    triangle.draw(&mut image);
-
-    for _ in 1..50 {
-        gs::Circle::random(image.width, image.height).draw(&mut image);
-    }
+    // for _ in 1..100 {
+    //     gs::Circle::random(image.width, image.height).draw(&mut image);
+    // }
 
 
     raster::save(&image, "image.png").unwrap();
